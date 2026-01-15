@@ -1,98 +1,124 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  StatusBar,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const router = useRouter();
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" />
+
+      {/* 👋 Welcome Section */}
+      <View style={styles.header}>
+        <Text style={styles.welcome}>Welcome 👋</Text>
+        <Text style={styles.subtitle}>
+          Manage services & calculate costs easily
+        </Text>
+      </View>
+
+      {/* 📊 Cards */}
+      <View style={styles.cardContainer}>
+        {/* Cost Calculator */}
+        <TouchableOpacity
+          style={styles.card}
+          onPress={() => router.push("/costcalculator")}
+        >
+          <MaterialIcons name="calculate" size={32} color="#2563eb" />
+          <Text style={styles.cardTitle}>Cost Calculator</Text>
+          <Text style={styles.cardDesc}>
+            Calculate service pricing instantly
+          </Text>
+        </TouchableOpacity>
+
+        {/* Manage Services */}
+        <TouchableOpacity
+          style={styles.card}
+          onPress={() => router.push("/manage-service")}
+        >
+          <Ionicons name="settings-outline" size={32} color="#16a34a" />
+          <Text style={styles.cardTitle}>Master</Text>
+          <Text style={styles.cardDesc}>
+            Add, edit and manage services
+          </Text>
+        </TouchableOpacity>
+
+        {/*pdf history */}
+        <TouchableOpacity
+          style={styles.card}
+          onPress={() => router.push("/PdfPage/pdf-history")}
+        >
+          <Ionicons name="document-text-outline" size={32} color="#db2777" />
+          <Text style={styles.cardTitle}>PDF History</Text>
+          <Text style={styles.cardDesc}>
+            View previously generated PDFs
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    backgroundColor: "#f8fafc",
+    padding: 16,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  header: {
+    marginTop: 10,
+    marginBottom: 24,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  welcome: {
+    fontSize: 26,
+    fontWeight: "700",
+    color: "#0f172a",
+  },
+  subtitle: {
+    fontSize: 14,
+    color: "#64748b",
+    marginTop: 6,
+  },
+  cardContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    gap: 12,
+  },
+  card: {
+    width: "48%",
+    backgroundColor: "#ffffff",
+    borderRadius: 14,
+    padding: 16,
+    elevation: 3,
+  },
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginTop: 12,
+    color: "#0f172a",
+  },
+  cardDesc: {
+    fontSize: 12,
+    color: "#64748b",
+    marginTop: 4,
+  },
+  footer: {
+    marginTop: "auto",
+    alignItems: "center",
+    paddingVertical: 12,
+  },
+  footerText: {
+    fontSize: 12,
+    color: "#94a3b8",
   },
 });
