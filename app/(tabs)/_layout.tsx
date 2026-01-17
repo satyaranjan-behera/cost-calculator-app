@@ -1,13 +1,131 @@
-import { Tabs } from "expo-router";
+import { Tabs, usePathname } from "expo-router";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import {
+  View,
+  Text,
+  StyleSheet,
+  StatusBar,
+} from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import {
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
+import { getCompany } from "@/utils/storage/companyStorage";
+import { useEffect, useState } from "react";
+import { Image } from "react-native";
+
+/* 🔶 CUSTOM HEADER */
+// function CustomHeader() {
+//   const pathname = usePathname();
+//   const insets = useSafeAreaInsets();
+
+//   let subtitle = "Dashboard";
+//   if (pathname.includes("costcalculator")) subtitle = "Cost Calculator";
+//   if (pathname.includes("manage-service")) subtitle = "Master";
+
+//   return (
+//     <View
+//       style={{
+//         backgroundColor: "#ff9800",
+//         paddingTop: insets.top, // ✅ notch safe
+//       }}
+//     >
+//       <StatusBar barStyle="light-content" />
+
+//       <LinearGradient
+//         colors={["#ff9800", "#ff6d00"]}
+//         style={styles.header}
+//       >
+//         {/* Logo */}
+//         <View style={styles.logoBox}>
+//           <Ionicons name="business-outline" size={24} color="#fff" />
+//         </View>
+
+//         {/* Company Info */}
+//         <View>
+//           <Text style={styles.company}>My Company</Text>
+//           <Text style={styles.subtitle}>{subtitle}</Text>
+//         </View>
+//       </LinearGradient>
+//     </View>
+//   );
+// }
+
+/* 🔶 CUSTOM HEADER */
+function CustomHeader() {
+  const pathname = usePathname();
+  const insets = useSafeAreaInsets();
+
+  const [companyName, setCompanyName] = useState("My Company");
+  const [logo, setLogo] = useState<string | null>(null);
+
+  let subtitle = "Dashboard";
+  if (pathname.includes("costcalculator")) subtitle = "Cost Calculator";
+  if (pathname.includes("manage-service")) subtitle = "Master";
+
+  useEffect(() => {
+    const loadCompany = async () => {
+      try {
+        const company = await getCompany();
+        setCompanyName(company.companyName || "My Company");
+        setLogo(company.logo?.trim() ? company.logo : null);
+      } catch (error) {
+        console.log("Error loading company:", error);
+      }
+    };
+
+    loadCompany();
+  }, []);
+
+  return (
+    <View
+      style={{
+        backgroundColor: "#ff9800",
+        paddingTop: insets.top, // ✅ notch safe
+      }}
+    >
+      <StatusBar barStyle="light-content" />
+
+      <LinearGradient
+        colors={["#ff9800", "#ff6d00"]}
+        style={styles.header}
+      >
+        {/* Logo */}
+        {logo ? (
+          <Image
+            source={{ uri: logo }}
+            style={styles.logoDirect}
+            resizeMode="contain"
+          />
+        ) : (
+          <Ionicons name="business-outline" size={44} color="#fff" />
+        )}
+
+        {/* Company Info */}
+        <View>
+          <Text style={styles.company}>{companyName}</Text>
+          <Text style={styles.subtitle}>{subtitle}</Text>
+        </View>
+      </LinearGradient>
+    </View>
+  );
+}
 
 export default function TabLayout() {
+  const insets = useSafeAreaInsets();
+
   return (
     <Tabs
       screenOptions={{
-        headerShown: true,
-        tabBarActiveTintColor: "#2563eb",
+        header: () => <CustomHeader />,
+        tabBarActiveTintColor: "#ff9800",
         tabBarInactiveTintColor: "#6b7280",
+        tabBarStyle: {
+          ...styles.tabBar,
+          paddingBottom: insets.bottom + 6, // ✅ navigation bar safe
+          height: 60 + insets.bottom,
+        },
       }}
     >
       {/* 🏠 HOME */}
@@ -15,44 +133,68 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Home",
-          headerTitle: "Home",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home-outline" size={size} color={color} />
           ),
         }}
       />
 
-      {/* 💰 COST CALCULATOR */}
+      {/* 💰 CALCULATOR */}
       <Tabs.Screen
         name="costcalculator"
         options={{
-          title: "Cost Calculator",
-          headerTitle: "Cost Calculator",
+          title: "Calculator",
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons
-              name="calculate"
-              size={size}
-              color={color}
-            />
+            <MaterialIcons name="calculate" size={size} color={color} />
           ),
         }}
       />
 
-      {/* 🛠 MASTER / MANAGE SERVICES */}
+      {/* 🛠 MASTER */}
       <Tabs.Screen
         name="manage-service"
         options={{
           title: "Master",
-          headerTitle: "Manage Services",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons
-              name="settings-outline"
-              size={size}
-              color={color}
-            />
+            <Ionicons name="settings-outline" size={size} color={color} />
           ),
         }}
       />
     </Tabs>
   );
 }
+
+/* 🎨 STYLES */
+const styles = StyleSheet.create({
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    borderBottomLeftRadius: 22,
+    borderBottomRightRadius: 22,
+  },
+
+  logoDirect: {
+    width: 44,
+    height: 44,
+    borderRadius: 12, // optional rounded corners
+  },
+
+  company: {
+    color: "#fff",
+    fontSize: 20,
+    fontWeight: "700",
+  },
+
+  subtitle: {
+    color: "#ffe0b2",
+    fontSize: 14,
+    marginTop: 2,
+  },
+
+  tabBar: {
+    paddingTop: 6,
+  },
+
+});

@@ -2,6 +2,8 @@ import * as Print from "expo-print";
 import * as Sharing from "expo-sharing";
 import * as FileSystem from "expo-file-system/legacy";
 import { getInfoAsync } from "expo-file-system/legacy";
+import { getCompany } from "./companyStorage";
+import { toBase64 } from "./imageUtilis";
 
 /* -------------------- TYPES -------------------- */
 
@@ -65,7 +67,9 @@ const generateHTML = (
   services: PDFServiceItem[],
   subtotal: number,
   multiplier: number,
-  grandTotal: number
+  grandTotal: number,
+  companyName: string,
+  companyLogo: string
 ) => {
   const rows = services
     .map(
@@ -85,6 +89,24 @@ const generateHTML = (
       <head>
         <style>
           body { font-family: Arial; padding: 24px; }
+
+          .header {
+              display: flex;
+              align-items: center;
+              gap: 16px;
+              margin-bottom: 24px;
+          }
+
+         .header img {
+              width: 70px;
+              height: 70px;
+              object-fit: contain;
+          }
+
+         .header h1 {
+              margin: 0;
+              font-size: 22px;
+          }
           h2 { text-align: center; margin-bottom: 20px; }
           table { width: 100%; border-collapse: collapse; }
           th, td {
@@ -114,6 +136,12 @@ const generateHTML = (
       </head>
 
       <body>
+
+        <div class="header">
+          <img src="${companyLogo}" />
+          <h1>${companyName}</h1>
+        </div>
+
         <h2>Cost Calculator Summary</h2>
 
         <table>
@@ -161,11 +189,16 @@ export const generateCostCalculatorPDF = async (
     throw new Error("No services selected");
   }
 
+  const { companyName, logo } = await getCompany();
+  const logoBase64 = logo ? await toBase64(logo) : "";
+
   const html = generateHTML(
     services,
     subtotal,
     multiplier,
-    grandTotal
+    grandTotal,
+    companyName,
+    logoBase64
   );
 
   // PDF is generated ONLY here

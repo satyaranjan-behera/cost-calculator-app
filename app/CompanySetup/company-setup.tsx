@@ -12,6 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useEffect, useState } from "react";
+import SetupHeader from "@/components/screens/setupHeader";
 
 import {
   getCompany,
@@ -79,21 +80,14 @@ export default function CompanySetup() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    
+    <SafeAreaView style={styles.container} edges={["left", "right"]}>
+
+      <SetupHeader/>
+      
+
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* HEADER */}
-        <View style={styles.header}>
-          <TouchableOpacity onPress={()=>router.back()}>
-            <Ionicons name="arrow-back" size={22} color="#fff" />
-          </TouchableOpacity>
-          
-          <View style={{ marginLeft: 12 }}>
-            <Text style={styles.headerTitle}>Company Setup</Text>
-            <Text style={styles.headerSub}>
-              Update your company information
-            </Text>
-          </View>
-        </View>
+        
 
         {/* LOGO CARD */}
         <View style={styles.card}>
@@ -192,23 +186,23 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f5f6fa",
   },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#ff7a00",
-    padding: 20,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-  },
-  headerTitle: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "700",
-  },
-  headerSub: {
-    color: "#ffe2c6",
-    fontSize: 12,
-  },
+  // header: {
+  //   flexDirection: "row",
+  //   alignItems: "center",
+  //   backgroundColor: "#ff7a00",
+  //   padding: 20,
+  //   borderBottomLeftRadius: 20,
+  //   borderBottomRightRadius: 20,
+  // },
+  // headerTitle: {
+  //   color: "#fff",
+  //   fontSize: 18,
+  //   fontWeight: "700",
+  // },
+  // headerSub: {
+  //   color: "#ffe2c6",
+  //   fontSize: 12,
+  // },
   card: {
     backgroundColor: "#fff",
     margin: 16,

@@ -17,6 +17,7 @@ import {
   saveTnC,
   initialTnCFile,
 } from "../../utils/storage/t&cStorage";
+import SetupHeader from "@/components/screens/setupHeader";
 
 export default function TnCSetup() {
   const [generalTerm, setGeneralTerm] = useState("");
@@ -54,20 +55,10 @@ export default function TnCSetup() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["left", "right"]}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* HEADER */}
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()}>
-            <Ionicons name="arrow-back" size={22} color="#fff" />
-          </TouchableOpacity>
-          <View style={{ marginLeft: 12 }}>
-            <Text style={styles.headerTitle}>Terms & Conditions Setup</Text>
-            <Text style={styles.headerSub}>
-              Configure your app's legal policies
-            </Text>
-          </View>
-        </View>
+       <SetupHeader/>
 
         {/* GENERAL TERMS */}
         <View style={styles.card}>

@@ -15,6 +15,7 @@ import { confirmDelete } from "@/components/handlers/deleteHandler";
 // 🔁 USE YOUR EXISTING STORAGE LOGIC
 import { getServices, saveServices } from "../../utils/storage/serviceStorage";
 import { router } from "expo-router";
+import SetupHeader from "@/components/screens/setupHeader";
 
 export default function PriceSetup() {
     const [services, setServices] = useState<any[]>([]);
@@ -73,17 +74,12 @@ export default function PriceSetup() {
     );
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.container} edges={["left", "right"]}>
             {/* STATUS BAR */}
             <StatusBar backgroundColor="#0004ffff" barStyle="light-content" />
 
             {/* HEADER */}
-            <View style={styles.header}>
-                <Text style={styles.headerTitle}> ₹ Price Setup</Text>
-                <Text style={styles.headerSub}>
-                    Manage your services and pricing
-                </Text>
-            </View>
+            <SetupHeader/>
 
             {/* TOTAL SERVICES */}
             <View style={styles.totalCard}>
