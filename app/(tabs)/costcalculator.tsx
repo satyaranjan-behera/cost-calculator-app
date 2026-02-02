@@ -26,7 +26,7 @@ export default function CostCalculator() {
 
   useEffect(() => {
     loadServices();
-  }, []);
+  }, [services]);
 
   const loadServices = async () => {
     const data = await getServices();

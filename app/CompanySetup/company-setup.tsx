@@ -66,7 +66,7 @@ export default function CompanySetup() {
       logo,
       companyName,
       industry,
-      address,
+      address, 
       phone,
       email,
     });

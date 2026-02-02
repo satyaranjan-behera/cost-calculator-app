@@ -53,7 +53,7 @@ export default function HomeScreen() {
         {/*pdf history */}
         <TouchableOpacity
           style={styles.card}
-          onPress={() => router.push("/PdfPage/pdf-history")}
+          onPress={() => router.push("../PdfPage/pdf-history")}
         >
           <Ionicons name="document-text-outline" size={32} color="#db2777" />
           <Text style={styles.cardTitle}>PDF History</Text>

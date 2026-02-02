@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView ,useSafeAreaInsets } from "react-native-safe-area-context";
 import { useState } from "react";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -15,9 +15,11 @@ import {
   getServices,
   saveServices,
 } from "../../utils/storage/serviceStorage";
+import { StatusBar } from "expo-status-bar";
 
 export default function AddService() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
 
   const [service, setService] = useState("");
   const [price, setPrice] = useState("");
@@ -48,9 +50,10 @@ export default function AddService() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={[ "left", "right"]}>
+      {/* <StatusBar style="light" backgroundColor="#2c0df5ff" /> */}
       {/* HEADER */}
-      <View style={styles.header}>
+      <View style={[styles.header,{ paddingTop: insets.top+12 }]}>
         <TouchableOpacity onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={24} color="#fff" />
         </TouchableOpacity>

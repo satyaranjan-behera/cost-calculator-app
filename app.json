@@ -14,10 +14,10 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE"
-       
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.satyaranjan2001.projectcost"
     },
     "web": {
       "output": "static",
@@ -41,6 +41,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "496e96dd-7dc1-429f-ae2c-b2d544b47ee2"
+      }
     }
   }
 }

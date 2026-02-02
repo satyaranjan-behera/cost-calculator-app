@@ -66,13 +66,13 @@ export default function PaymentSetup() {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={["left", "right"]}>
+    <SafeAreaView style={{ flex: 1}} edges={[ "left", "right"]}>
       {/* ---------------- HEADER ---------------- */}
       <SetupHeader/>
 
       {/* ---------------- CONTENT ---------------- */}
       <ScrollView
-        contentContainerStyle={styles.container}
+        // contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}
       >
         {/* Payment Methods */}

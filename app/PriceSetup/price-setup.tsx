@@ -22,7 +22,7 @@ export default function PriceSetup() {
 
     useEffect(() => {
         loadServices();
-    }, []);
+    }, [services]);
 
     const loadServices = async () => {
         const data = await getServices();

@@ -57,8 +57,10 @@ function CustomHeader() {
   const pathname = usePathname();
   const insets = useSafeAreaInsets();
 
-  const [companyName, setCompanyName] = useState("My Company");
-  const [logo, setLogo] = useState<string | null>(null);
+  const [company, setCompany] = useState<any>(null);
+
+  // const [companyName, setCompanyName] = useState("My Company");
+  // const [logo, setLogo] = useState<string | null>(null);
 
   let subtitle = "Dashboard";
   if (pathname.includes("costcalculator")) subtitle = "Cost Calculator";
@@ -67,16 +69,17 @@ function CustomHeader() {
   useEffect(() => {
     const loadCompany = async () => {
       try {
-        const company = await getCompany();
-        setCompanyName(company.companyName || "My Company");
-        setLogo(company.logo?.trim() ? company.logo : null);
+        const data = await getCompany();
+        // setCompanyName(company.companyName || "My Company");
+        // setLogo(company.logo?.trim() ? company.logo : null);
+        setCompany(data);
       } catch (error) {
         console.log("Error loading company:", error);
       }
     };
 
     loadCompany();
-  }, []);
+  }, [company]);
 
   return (
     <View
@@ -92,9 +95,9 @@ function CustomHeader() {
         style={styles.header}
       >
         {/* Logo */}
-        {logo ? (
+        {company?.logo ? (
           <Image
-            source={{ uri: logo }}
+            source={{ uri: company.logo }}
             style={styles.logoDirect}
             resizeMode="contain"
           />
@@ -104,7 +107,7 @@ function CustomHeader() {
 
         {/* Company Info */}
         <View>
-          <Text style={styles.company}>{companyName}</Text>
+          <Text style={styles.company}>{company?.companyName || "My Company"}</Text>
           <Text style={styles.subtitle}>{subtitle}</Text>
         </View>
       </LinearGradient>

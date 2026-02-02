@@ -21,7 +21,7 @@ export default function ManageServices() {
 
   useEffect(() => {
     loadCompany();
-  }, []);
+  }, [company]);
 
   const loadCompany = async () => {
     const data = await getCompany();
@@ -69,35 +69,35 @@ export default function ManageServices() {
           icon={<Ionicons name="business" size={22} color="#1D7BD9" />}
           title="Company Setup"
           subtitle="Configure company details & logo"
-          onPress={() => router.push("/CompanySetup/company-setup")}
+          onPress={() => router.push("../CompanySetup/company-setup")}
         />
 
         <MenuItem
           icon={<Ionicons name="cash-outline" size={20} color="#22C55E" />}
           title="Price Setup"
           subtitle="Set pricing & rate cards"
-          onPress={() => router.push("/PriceSetup/price-setup")}
+          onPress={() => router.push("../PriceSetup/price-setup")}
         />
 
         <MenuItem
           icon={<Ionicons name="document-text" size={22} color="#F59E0B" />}
           title="T&C Setup"
           subtitle="Terms and conditions"
-          onPress={() => router.push("/T&CSetup/t&c-setup")}
+          onPress={() => router.push("../T&CSetup/t&c-setup")}
         />
 
         <MenuItem
           icon={<Ionicons name="card" size={22} color="#14B8A6" />}
           title="Payment Setup"
           subtitle="Payment modes & bank details"
-          onPress={() => router.push("/PaymentSetup/payment-setup")}
+          onPress={() => router.push("../PaymentSetup/payment-setup")}
         />
 
         <MenuItem
           icon={<Ionicons name="cube-outline" size={22} color="#14B8A6" />}
           title="Delivery Setup"
           subtitle="Delivery options & charges"
-          onPress={() => router.push("/DeliverySetup/delivery-setup")}
+          // onPress={() => router.push("../DeliverySetup/delivery-setup")}
         />
       </ScrollView>
     </View>
